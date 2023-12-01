@@ -75,3 +75,44 @@ param_dist = {
     'min_samples_leaf': randint(1, 10)
 }
 
+# RandomForestRegressor
+rf = RandomForestRegressor()
+
+# RandomizedSearchCV
+random_search = RandomizedSearchCV(rf, param_distributions=param_dist, n_iter=100, cv=3, random_state=42, n_jobs=-1)
+random_search.fit(X_train_transformed, y_train)
+
+best_params = random_search.best_params_
+
+# Train model with the best parameters
+best_rf = RandomForestRegressor(**best_params)
+best_rf.fit(X_train_transformed, y_train)
+
+# Evaluate model
+predictions = best_rf.predict(X_validation_transformed)
+mse = mean_squared_error(y_validation, predictions)
+r2 = r2_score(y_validation, predictions)
+
+# Create dataframe with scores
+scores_df = pd.DataFrame({
+    'MSE': [mse],
+    'R2_Score': [r2]
+})
+
+# Export MSE and R2 to BigQuery
+destination_table1 = "Vertex.EPCEvaluation"
+job_config = bigquery.LoadJobConfig(write_disposition=bigquery.WriteDisposition.WRITE_APPEND, autodetect=True)
+payload1 = client.load_table_from_dataframe(scores_df, destination_table1, job_config=job_config)
+payload1.result()
+
+# Predict on EPC Invalid
+epc_invalid_transformed = preprocessor.transform(epc_invalid.drop(columns=['co2_emissions_current']))
+epc_invalid['co2_emissions_predicted'] = best_rf.predict(epc_invalid_transformed)
+
+# Export predictions to BigQuery
+destination_table = "Vertex.EPCInvalidFixed1"
+payload = client.load_table_from_dataframe(epc_invalid, destination_table)
+payload.result()
+
+# Function complete
+print("ML model execution complete")

@@ -1,4 +1,5 @@
 # Import necessary libraries
+from flask import Flask, jsonify
 from google.cloud import bigquery
 import numpy as np
 import pandas as pd
@@ -11,6 +12,11 @@ from sklearn.model_selection import RandomizedSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error, r2_score
 from scipy.stats import randint
+
+app = Flask(__name__)
+
+@app.route('/run-model', methods=['POST'])
+def run_model():
 
 # Initialize BigQuery client
 client = bigquery.Client()
@@ -114,5 +120,8 @@ destination_table = "Vertex.EPCInvalidFixed1"
 payload = client.load_table_from_dataframe(epc_invalid, destination_table)
 payload.result()
 
-# Function complete
-print("ML model execution complete")
+# Return a response
+return jsonify({"message": "ML model execution complete", "MSE": mse, "R2_Score": r2})
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8080)

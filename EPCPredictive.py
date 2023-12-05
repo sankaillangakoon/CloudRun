@@ -16,7 +16,7 @@ from scipy.stats import randint
 client = bigquery.Client()
 
 # Set BigQuery dataset parameters
-PROJECT_ID = 'your-project-id'
+PROJECT_ID = 'playpen-05c7cd'
 DATASET_ID = 'Vertex'
 TABLE_ID_VALID = 'EPCValid'
 TABLE_ID_INVALID = 'EPCInvalid'

@@ -121,8 +121,8 @@ def run_model():
  payload = client.load_table_from_dataframe(epc_invalid, destination_table)
  payload.result()
 
-# Return a response
-return jsonify({"message": "ML model execution complete", "MSE": mse, "R2_Score": r2})
+ # Return a response
+ return jsonify({"message": "ML model execution complete", "MSE": mse, "R2_Score": r2})
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)

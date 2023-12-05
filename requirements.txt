@@ -1,6 +1,6 @@
 pandas
+numpy
 scikit-learn
 scipy
 google-cloud-bigquery
 db-dtypes
-requests==2.26.0

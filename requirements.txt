@@ -3,5 +3,4 @@ numpy
 scikit-learn
 scipy
 google-cloud-bigquery
-db-dtypes
 Flask==2.0.1

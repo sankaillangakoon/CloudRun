@@ -32,14 +32,14 @@ def run_model():
 	SELECT 
 	* 
 	FROM 
-	'{PROJECT_ID}, {DATASET_ID}, {TABLE_ID_VALID}'
+	`{PROJECT_ID}.{DATASET_ID}.{TABLE_ID_VALID}`
 	"""
 	
 	sql_invalid = f"""
 	SELECT 
 	* 
 	FROM 
-	'{PROJECT_ID}, {DATASET_ID}, {TABLE_ID_INVALID}'
+        `{PROJECT_ID}.{DATASET_ID}.{TABLE_ID_INVALID}`
 	"""
 	
 	# Load datasets from BigQuery

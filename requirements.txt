@@ -4,3 +4,4 @@ scikit-learn
 scipy
 google-cloud-bigquery
 Flask==2.0.1
+google-auth

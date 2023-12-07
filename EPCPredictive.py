@@ -22,7 +22,6 @@ def run_model():
 	client = bigquery.Client()
 	
 	# Set BigQuery dataset parameters
-	PROJECT_ID = 'playpen-05c7cd'
 	DATASET_ID = 'Vertex'
 	TABLE_ID_VALID = 'EPCValid'
 	TABLE_ID_INVALID = 'EPCInvalid'
@@ -32,14 +31,14 @@ def run_model():
 	SELECT 
 	* 
 	FROM 
-	`{PROJECT_ID}.{DATASET_ID}.{TABLE_ID_VALID}`
+	`{client.project}.{DATASET_ID}.{TABLE_ID_VALID}`
 	"""
 	
 	sql_invalid = f"""
 	SELECT 
 	* 
 	FROM 
-        `{PROJECT_ID}.{DATASET_ID}.{TABLE_ID_INVALID}`
+        `{client.project}.{DATASET_ID}.{TABLE_ID_INVALID}`
 	"""
 	
 	# Load datasets from BigQuery
